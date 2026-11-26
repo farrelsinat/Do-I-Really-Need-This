@@ -7,300 +7,375 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- CUSTOM CSS: FRESH, GIRLY BOTANICAL & SYMMETRIC ALIGNMENT ---
+# --- CUSTOM CSS: MOBILE-SAFE, HIGH CONTRAST & FRESH BOTANICAL ---
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
-    /* Latar belakang pastel segar & lembut */
-    .stApp {
+    /* Paksa latar belakang utama tetap terang pastel meski HP pakai dark mode */
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         background:
-            radial-gradient(circle at 12% 15%, rgba(214, 235, 223, 0.75) 0%, transparent 42%),
-            radial-gradient(circle at 88% 18%, rgba(232, 224, 248, 0.75) 0%, transparent 42%),
-            radial-gradient(circle at 50% 92%, rgba(253, 243, 212, 0.8) 0%, transparent 48%),
-            #FAF8F5;
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        color: #262B28;
+            radial-gradient(circle at 12% 15%, rgba(214, 235, 223, 0.78) 0%, transparent 45%),
+            radial-gradient(circle at 88% 18%, rgba(232, 224, 248, 0.78) 0%, transparent 45%),
+            radial-gradient(circle at 50% 92%, rgba(253, 243, 212, 0.85) 0%, transparent 50%),
+            #FAF8F5 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        color: #1F2622 !important;
     }
 
-    /* Merapikan kontainer utama agar sejajar simetris kanan-kiri */
+    /* Kontainer utama rapi & simetris di mobile maupun desktop */
     .block-container {
         max-width: 560px !important;
-        padding-top: 2.5rem !important;
-        padding-bottom: 3rem !important;
-        padding-left: 1.25rem !important;
-        padding-right: 1.25rem !important;
+        padding-top: 1.75rem !important;
+        padding-bottom: 2.5rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
     }
 
-    /* Sembunyikan menu/header bawaan Streamlit agar bersih */
-    #MainMenu, footer, header {
-        visibility: hidden;
+    /* Sembunyikan menu/header bawaan Streamlit */
+    #MainMenu, footer, header, [data-testid="stToolbar"] {
+        visibility: hidden !important;
+        display: none !important;
     }
 
     /* Header & Judul */
     .cute-stickers {
         text-align: center;
-        font-size: 1.35rem;
-        letter-spacing: 0.45rem;
-        margin-bottom: 0.35rem;
-        opacity: 0.9;
+        font-size: 1.25rem;
+        letter-spacing: 0.35rem;
+        margin-bottom: 0.3rem;
+        color: #1F2622 !important;
     }
 
     .editorial-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 2.45rem;
+        font-family: 'Playfair Display', serif !important;
+        font-size: 2.15rem;
         font-weight: 700;
-        color: #1D2621;
+        color: #1A221E !important;
         text-align: center;
         line-height: 1.15;
         margin-bottom: 0.4rem;
     }
 
+    @media (min-width: 640px) {
+        .editorial-title {
+            font-size: 2.45rem;
+        }
+    }
+
     .editorial-title span.italic-sage {
         font-style: italic;
         font-weight: 600;
-        color: #4D7763;
+        color: #466E5B !important;
     }
 
     .editorial-subtitle {
         text-align: center;
-        color: #636B66;
-        font-size: 0.92rem;
+        color: #4F5853 !important;
+        font-size: 0.9rem;
         line-height: 1.55;
-        margin-bottom: 1.6rem;
+        margin-bottom: 1.35rem;
     }
 
-    /* Kartu Utama (Welcome & Pertanyaan) */
+    .editorial-subtitle strong {
+        color: #1F2622 !important;
+    }
+
+    /* Kartu Utama */
     .main-card {
-        background: rgba(255, 255, 255, 0.88);
-        backdrop-filter: blur(12px);
-        border: 1.5px solid #E5E0D5;
-        border-radius: 28px;
-        padding: 1.75rem 1.65rem 1.4rem 1.65rem;
-        box-shadow: 0 16px 40px rgba(45, 74, 60, 0.06);
-        margin-bottom: 1rem;
+        background: #FFFFFF !important;
+        border: 1.5px solid #E3DDD2 !important;
+        border-radius: 24px;
+        padding: 1.35rem 1.25rem;
+        box-shadow: 0 12px 32px rgba(45, 74, 60, 0.06);
+        margin-bottom: 0.85rem;
+        color: #1F2622 !important;
     }
 
-    /* Baris atas kartu pertanyaan (Badge kiri, Nomor kanan) */
+    @media (min-width: 640px) {
+        .main-card {
+            border-radius: 28px;
+            padding: 1.75rem 1.65rem 1.45rem 1.65rem;
+        }
+    }
+
     .card-top-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 0.85rem;
+        gap: 0.5rem;
+        margin-bottom: 0.8rem;
     }
 
     .badge-pill {
         display: inline-flex;
         align-items: center;
-        gap: 0.35rem;
-        font-size: 0.72rem;
+        gap: 0.3rem;
+        font-size: 0.7rem;
         font-weight: 700;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
-        padding: 0.28rem 0.8rem;
+        padding: 0.26rem 0.75rem;
         border-radius: 999px;
     }
 
     .badge-fandom {
-        background-color: #EDE8FA;
-        color: #5A4B8C;
-        border: 1px solid #DDD4F5;
+        background-color: #ECE7FA !important;
+        color: #4E3F82 !important;
+        border: 1px solid #D6CCF2 !important;
     }
 
     .badge-emotion {
-        background-color: #FEF4D6;
-        color: #8C6B1D;
-        border: 1px solid #F7E5B2;
+        background-color: #FEF2CE !important;
+        color: #7D5E14 !important;
+        border: 1px solid #F3DF9E !important;
     }
 
     .badge-finance {
-        background-color: #E3F2E9;
-        color: #35614D;
-        border: 1px solid #C9E3D3;
+        background-color: #DFF0E6 !important;
+        color: #2C5744 !important;
+        border: 1px solid #C2DFCE !important;
     }
 
     .step-counter {
-        font-size: 0.78rem;
+        font-size: 0.75rem;
         font-weight: 600;
-        color: #8B948E;
-        background: #F4F2EC;
+        color: #555E59 !important;
+        background: #F2EFE9 !important;
         padding: 0.22rem 0.65rem;
         border-radius: 999px;
+        white-space: nowrap;
     }
 
     .question-text {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.4rem;
+        font-family: 'Playfair Display', serif !important;
+        font-size: 1.25rem;
         font-weight: 600;
-        color: #1D2621;
-        line-height: 1.38;
-        margin-bottom: 0.25rem;
+        color: #1A221E !important;
+        line-height: 1.36;
+        margin: 0;
     }
 
-    /* Styling Radio Button menjadi kartu pilihan yang rapi & sejajar */
+    @media (min-width: 640px) {
+        .question-text {
+            font-size: 1.4rem;
+        }
+    }
+
+    .card-helper-text {
+        font-size: 0.85rem;
+        color: #5B645F !important;
+        margin-top: 0.45rem;
+        margin-bottom: 0;
+        line-height: 1.45;
+    }
+
+    /* Styling Radio Button - kunci warna teks di semua anak elemen agar tidak hilang */
     div[data-testid="stRadio"] > label {
         display: none !important;
     }
 
-    div[data-testid="stRadio"] > div {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-        width: 100%;
+    div[data-testid="stRadio"] > div[role="radiogroup"] {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.55rem !important;
+        width: 100% !important;
     }
 
     div[data-testid="stRadio"] label[data-baseweb="radio"] {
-        background-color: #FCFBF8 !important;
-        border: 1.5px solid #E8E3D9 !important;
-        border-radius: 18px !important;
-        padding: 0.85rem 1.1rem !important;
+        background-color: #FFFFFF !important;
+        border: 1.5px solid #E3DDD2 !important;
+        border-radius: 16px !important;
+        padding: 0.82rem 1rem !important;
         margin: 0 !important;
         width: 100% !important;
-        transition: all 0.2s ease !important;
+        box-sizing: border-box !important;
+        transition: all 0.18s ease !important;
         cursor: pointer;
     }
 
+    div[data-testid="stRadio"] label[data-baseweb="radio"] * {
+        color: #222925 !important;
+        opacity: 1 !important;
+    }
+
     div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
-        background-color: #F2F7F4 !important;
-        border-color: #9BB8A8 !important;
-        transform: translateY(-1px);
+        background-color: #F3F8F5 !important;
+        border-color: #8FB09F !important;
     }
 
-    /* Warna saat opsi dipilih */
     div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) {
-        background-color: #E7F2EC !important;
-        border-color: #527966 !important;
-        box-shadow: 0 4px 12px rgba(82, 121, 102, 0.14) !important;
+        background-color: #E3F0E8 !important;
+        border-color: #466E5B !important;
+        box-shadow: 0 4px 12px rgba(70, 110, 91, 0.14) !important;
     }
 
-    div[data-testid="stRadio"] label[data-baseweb="radio"] p {
-        font-size: 0.92rem !important;
-        color: #363D39 !important;
-        font-weight: 500 !important;
-    }
-
-    div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) p {
-        color: #1F3B2E !important;
+    div[data-testid="stRadio"] label[data-baseweb="radio"]:has(input:checked) * {
+        color: #193629 !important;
         font-weight: 600 !important;
     }
 
-    /* Styling Text Input nama konser */
+    /* Styling Text Input */
     div[data-testid="stTextInput"] input {
-        background-color: #FCFBF8 !important;
-        border: 1.5px solid #DFD9CE !important;
+        background-color: #FFFFFF !important;
+        border: 1.5px solid #DCD6CA !important;
         border-radius: 16px !important;
-        padding: 0.75rem 1rem !important;
+        padding: 0.78rem 1rem !important;
         font-size: 0.95rem !important;
-        color: #262B28 !important;
+        color: #1F2622 !important;
+        -webkit-text-fill-color: #1F2622 !important;
+    }
+
+    div[data-testid="stTextInput"] input::placeholder {
+        color: #87908B !important;
+        -webkit-text-fill-color: #87908B !important;
+        opacity: 1 !important;
     }
 
     div[data-testid="stTextInput"] input:focus {
-        border-color: #527966 !important;
-        box-shadow: 0 0 0 3px rgba(82, 121, 102, 0.15) !important;
+        border-color: #466E5B !important;
+        box-shadow: 0 0 0 3px rgba(70, 110, 91, 0.16) !important;
     }
 
-    /* Styling Tombol Navigasi agar sejajar & pill-shaped */
+    /* Tombol Navigasi */
     div.stButton > button {
-        border-radius: 16px !important;
-        padding: 0.65rem 1.25rem !important;
+        border-radius: 15px !important;
+        padding: 0.65rem 1rem !important;
         font-weight: 600 !important;
-        font-size: 0.92rem !important;
-        transition: all 0.2s ease !important;
-        border: 1.5px solid #DFD9CE !important;
+        font-size: 0.9rem !important;
+        min-height: 46px !important;
+        border: 1.5px solid #DCD6CA !important;
         background-color: #FFFFFF !important;
-        color: #3A423E !important;
+        color: #262E2A !important;
+    }
+
+    div.stButton > button * {
+        color: #262E2A !important;
     }
 
     div.stButton > button:hover {
-        border-color: #7FA391 !important;
-        background-color: #F4F8F6 !important;
-        color: #233D31 !important;
+        border-color: #749A87 !important;
+        background-color: #F2F7F4 !important;
     }
 
-    /* Tombol Primary (Next / Reveal) */
     div.stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #476E5B 0%, #355747 100%) !important;
-        color: #FAF8F5 !important;
+        background: linear-gradient(135deg, #466E5B 0%, #335445 100%) !important;
         border: none !important;
-        box-shadow: 0 8px 20px -4px rgba(53, 87, 71, 0.35) !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 8px 20px -4px rgba(51, 84, 69, 0.35) !important;
     }
 
-    div.stButton > button[kind="primary"]:hover {
-        background: linear-gradient(135deg, #3C604F 0%, #2B483A 100%) !important;
-        transform: translateY(-1px);
+    div.stButton > button[kind="primary"] * {
+        color: #FFFFFF !important;
     }
 
-    /* Styling Progress Bar */
+    /* Progress Bar */
     div[data-testid="stProgress"] > div > div {
-        background-color: #E6E2D8 !important;
+        background-color: #E5E0D5 !important;
         border-radius: 999px !important;
         height: 8px !important;
     }
 
     div[data-testid="stProgress"] > div > div > div {
-        background: linear-gradient(90deg, #8B7EC8 0%, #689680 100%) !important;
+        background: linear-gradient(90deg, #8B7EC8 0%, #598570 100%) !important;
         border-radius: 999px !important;
     }
 
     /* Kartu Result bergaya Ticket Stub */
     .ticket-card {
-        background: rgba(255, 255, 255, 0.92);
-        border: 1.5px solid #E4DFD3;
-        border-radius: 30px;
-        padding: 2rem 1.8rem;
-        box-shadow: 0 20px 50px rgba(44, 74, 62, 0.08);
-        position: relative;
-        margin-bottom: 1.2rem;
+        background: #FFFFFF !important;
+        border: 1.5px solid #E2DDD1 !important;
+        border-radius: 26px;
+        padding: 1.5rem 1.25rem;
+        box-shadow: 0 18px 45px rgba(44, 74, 62, 0.08);
+        margin-bottom: 1rem;
+        color: #1F2622 !important;
+    }
+
+    @media (min-width: 640px) {
+        .ticket-card {
+            border-radius: 30px;
+            padding: 2rem 1.8rem;
+        }
     }
 
     .ticket-divider {
         border-top: 2px dashed #DFD9CC;
-        margin: 1.4rem -1.8rem;
-        position: relative;
+        margin: 1.3rem 0;
     }
 
     .concert-tag {
         display: inline-block;
-        background: #F4F1EA;
-        color: #5C584F;
+        background: #F3F0E8 !important;
+        color: #464D49 !important;
         font-size: 0.75rem;
         font-weight: 600;
-        padding: 0.3rem 0.9rem;
+        padding: 0.3rem 0.85rem;
         border-radius: 999px;
-        margin-bottom: 0.9rem;
+        margin-bottom: 0.85rem;
     }
 
     .score-box {
-        background: linear-gradient(180deg, #F5F9F6 0%, #EDF4F0 100%);
-        border: 1px solid #D7E6DD;
-        border-radius: 22px;
-        padding: 1.15rem;
+        background: #F2F7F4 !important;
+        border: 1px solid #D3E3DA !important;
+        border-radius: 20px;
+        padding: 1.1rem;
         text-align: center;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1.15rem;
+    }
+
+    .score-caption {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #4E6E5E !important;
+        margin-bottom: 0.2rem;
     }
 
     .score-number {
-        font-family: 'Playfair Display', serif;
-        font-size: 3.1rem;
+        font-family: 'Playfair Display', serif !important;
+        font-size: 2.9rem;
         font-weight: 700;
-        color: #294739;
+        color: #234033 !important;
         line-height: 1.05;
     }
 
+    .score-denom {
+        font-size: 1.35rem;
+        font-weight: 400;
+        color: #7D9186 !important;
+    }
+
     .verdict-headline {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.65rem;
+        font-family: 'Playfair Display', serif !important;
+        font-size: 1.5rem;
         font-weight: 700;
-        color: #1D2621;
+        color: #1A221E !important;
         text-align: center;
-        margin-bottom: 0.55rem;
+        margin-bottom: 0.5rem;
         line-height: 1.25;
     }
 
     .verdict-desc {
-        color: #5B635E;
-        font-size: 0.92rem;
+        color: #4C5550 !important;
+        font-size: 0.9rem;
         line-height: 1.6;
+        text-align: center;
+        margin: 0;
+    }
+
+    .verdict-desc strong {
+        color: #1A221E !important;
+    }
+
+    .breakdown-heading {
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #67706B !important;
+        margin-bottom: 0.85rem;
         text-align: center;
     }
 
@@ -313,14 +388,14 @@ st.markdown("""
         justify-content: space-between;
         font-size: 0.84rem;
         font-weight: 600;
-        color: #3E4742;
+        color: #27302B !important;
         margin-bottom: 0.35rem;
     }
 
     .cat-bar-bg {
         width: 100%;
         height: 9px;
-        background-color: #EAE6DD;
+        background-color: #EAE6DD !important;
         border-radius: 999px;
         overflow: hidden;
     }
@@ -460,9 +535,6 @@ QUESTIONS = [
 ]
 
 # --- INISIALISASI SESSION STATE ---
-# step 0 = Halaman Awal (Input Nama Konser)
-# step 1..10 = Pertanyaan 1 sampai 10
-# step 11 = Halaman Hasil
 if "step" not in st.session_state:
     st.session_state.step = 0
 if "concert_name" not in st.session_state:
@@ -495,10 +567,10 @@ if st.session_state.step == 0:
     <div class="main-card">
         <div class="card-top-row">
             <span class="badge-pill badge-finance">🌷 Ticket Reality Check</span>
-            <span class="step-counter">10 Quick Questions</span>
+            <span class="step-counter">10 Questions</span>
         </div>
         <div class="question-text">Which concert or artist are we thinking about today?</div>
-        <p style="font-size:0.86rem; color:#6D7570; margin-top:0.35rem; margin-bottom:0;">
+        <p class="card-helper-text">
             Type the artist, band, or tour name below to personalize your result card.
         </p>
     </div>
@@ -531,15 +603,13 @@ elif 1 <= st.session_state.step <= len(QUESTIONS):
         unsafe_allow_html=True,
     )
 
-    # Progress bar atas
     st.progress(st.session_state.step / total_q)
 
-    # Kartu Pertanyaan
     st.markdown(f"""
     <div class="main-card">
         <div class="card-top-row">
             <span class="badge-pill {q['badge_class']}">{q['icon']} {q['category']}</span>
-            <span class="step-counter">Question {st.session_state.step} of {total_q}</span>
+            <span class="step-counter">{st.session_state.step} / {total_q}</span>
         </div>
         <div class="question-text">{q['question']}</div>
     </div>
@@ -559,8 +629,7 @@ elif 1 <= st.session_state.step <= len(QUESTIONS):
 
     st.write("")
 
-    # Tombol Back & Next sejajar simetris kanan-kiri
-    col_back, col_next = st.columns([1, 1], gap="medium")
+    col_back, col_next = st.columns([1, 1], gap="small")
 
     with col_back:
         if st.button("← Back", use_container_width=True):
@@ -606,7 +675,6 @@ else:
 
     concert_title = st.session_state.concert_name if st.session_state.concert_name else "This Concert"
 
-    # Penentuan Verdict
     if percentages["Financial Safety"] < 40:
         verdict_emoji = "🛑💸"
         headline = "Step away from the checkout button."
@@ -642,20 +710,16 @@ else:
             <span class="concert-tag">🎫 Verdict For: {concert_title}</span>
         </div>
         <div class="score-box">
-            <div style="font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#648072; margin-bottom:0.2rem;">
-                Final Compatibility Score
-            </div>
+            <div class="score-caption">Final Compatibility Score</div>
             <div class="score-number">
-                {total_score}<span style="font-size:1.45rem; font-weight:400; color:#92A49A;">/{max_total_score}</span>
+                {total_score}<span class="score-denom">/{max_total_score}</span>
             </div>
         </div>
-        <div style="text-align:center; font-size:1.8rem; margin-bottom:0.35rem;">{verdict_emoji}</div>
+        <div style="text-align:center; font-size:1.75rem; margin-bottom:0.35rem;">{verdict_emoji}</div>
         <div class="verdict-headline">“{headline}”</div>
         <div class="verdict-desc">{description}</div>
         <div class="ticket-divider"></div>
-        <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#868E89; margin-bottom:0.9rem; text-align:center;">
-            ✦ Breakdown By Category ✦
-        </div>
+        <div class="breakdown-heading">✦ Breakdown By Category ✦</div>
         <div class="cat-row">
             <div class="cat-label-row">
                 <span>🎧 Fandom</span>
@@ -686,12 +750,12 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-    col_recheck, col_new = st.columns([1, 1], gap="medium")
+    col_recheck, col_new = st.columns([1, 1], gap="small")
     with col_recheck:
         if st.button("← Edit Answers", use_container_width=True):
             st.session_state.step = len(QUESTIONS)
             st.rerun()
     with col_new:
-        if st.button("↺ Check Another Concert", type="primary", use_container_width=True):
+        if st.button("↺ Check Another", type="primary", use_container_width=True):
             reset_quiz()
             st.rerun()
